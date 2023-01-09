@@ -145,6 +145,8 @@ function popupRequestReceived(msg) {
     } else {
       stopWatcher();
     }
+  } else if (msg.bucketID != undefined) {
+    // TODO: save bucketID
   }
 }
 

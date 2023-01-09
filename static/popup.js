@@ -2,6 +2,10 @@
 
 function renderStatus() {
   chrome.storage.local.get(["lastSync", "lastSyncSuccess", "testing", "baseURL", "enabled"], function(obj) {
+    // Bucket ID Input
+    let bucketID = ""; // TODO: get new bucketID from managed storage (enterprise policy)
+    document.getElementById('status-bucket-id-input').value = bucketID ? bucketID : ""; // get default id from client.js code
+
     // Enabled checkbox
     document.getElementById('status-enabled-checkbox').checked = obj.enabled;
 
@@ -29,6 +33,13 @@ function renderStatus() {
 }
 
 function domListeners() {
+  let id_input = document.getElementById('status-bucket-id-input');
+  let id_save_btn = document.getElementById('status-bucket-id-save-btn');
+  id_save_btn.addEventListener("click", () => {
+    let new_id = id_input.value;
+    chrome.runtime.sendMessage({bucketID: new_id}, function(response) {}); // TODO: show popup: saved, or turn text green
+  });
+
   let enabled_checkbox = document.getElementById('status-enabled-checkbox');
   enabled_checkbox.addEventListener("change", (obj) => {
     let enabled = obj.srcElement.checked;
